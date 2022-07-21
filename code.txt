@@ -1,0 +1,219 @@
+#include<iostream.h>
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<graphics.h>
+#include<math.h>
+#include<dos.h>
+
+/*void drawdecor();*/
+void drawclock();
+void drawclogic();
+void usecolor();
+void main()
+{
+clrscr();
+int gdriver=DETECT ,gmode;
+initgraph(&gdriver,&gmode,"c:\\tc\\bgi");
+cleardevice();
+
+/*Clock layout and logic called in usecolor method*/
+usecolor();
+
+getch();
+closegraph();
+}
+
+
+/*Draw clock steps method */
+
+void drawclock()
+{
+/*SIDE BORDER*/
+rectangle(0,0,600,470);
+rectangle(5,5,595,465);
+
+/*CLOCK BOX*/
+setcolor(25);
+rectangle(145,65,500,415);
+line(175,35,145,65);
+line(530,35,500,65);
+line(530,385,500,415);
+
+line(175,35,530,35);
+line(530,35,530,385);
+
+line(275,60,295,40);
+line(325,60,345,40);
+line(275,60,325,60);
+line(295,40,345,40);
+
+/*CLOCK TITLE*/
+setcolor(15);
+rectangle(20,150,130,280);
+  /*gotoxy(5,5);
+	printf("demla \n,pramod \n, lavina\n");*/
+	setcolor(10);
+	outtextxy(27,195,"Designed By:");
+	outtextxy(27,215,"demlaip");
+	outtextxy(27,235,"pramod");
+	outtextxy(27,255,"lavina");
+
+	cout<<"   ";
+	rectangle(25,155,125,180);
+	setcolor(YELLOW);
+outtextxy(27,160,"Analog Clock");
+
+/*CLOCK CIRCLES*/
+setbkcolor(0);
+setcolor(4); /*RED*/
+circle(320,240,3);
+setcolor(4);
+/*setfillstyle(6,13);*/
+circle(320,240,150);
+circle(320,240,165);
+
+/*CLOCK NUMBERS*/
+setcolor(14);
+outtextxy(314,98,"12");
+outtextxy(384,114,"1");
+outtextxy(434,163,"2");
+outtextxy(454,230,"3");
+outtextxy(317,369,"6");
+outtextxy(177,230,"9");
+outtextxy(436,300,"4");
+outtextxy(195,302,"8");
+outtextxy(195,163,"10");
+outtextxy(244,112,"11");
+outtextxy(388,353,"5");
+outtextxy(248,353,"7");
+}
+
+/*CALCULATION Logic of draw clock*/
+void drawclogic()
+{
+	float s;
+float df;
+float anf=3.14;
+
+int x,y;
+int q,w;
+int ta,d;
+int count=0;
+struct  time t1;
+gettime(&t1);
+
+float angle=4.712389+t1.ti_sec*.1047198;
+float an=4.712389+t1.ti_min*.1047198;
+while(!kbhit())
+{
+setcolor(count);
+rectangle(20,20,130,90);
+
+	gettime(&t1);
+
+	gotoxy(5,5);
+	printf("%d: %d: %d",
+	       t1.ti_hour, t1.ti_min, t1.ti_sec, t1.ti_hund);
+
+	cout<<"   ";
+	rectangle(25,25,125,45);
+	setcolor(YELLOW);
+outtextxy(27,30,"Digital Time");
+
+	gotoxy(5,5);
+	angle=4.712389+t1.ti_sec*.1047198;
+	an=4.712389+t1.ti_min*.1047198;
+	anf=4.712389+t1.ti_hour*5*.1047198 ;
+	if(t1.ti_min>=12&&t1.ti_min<24)
+	{
+	anf=anf+2*.1047198;
+	}
+	if(t1.ti_min>=24&&t1.ti_min<36)
+	{
+	anf=anf+(3*.1047198);
+	}
+	if(t1.ti_min>=36&&t1.ti_min<48)
+	{
+	anf=anf+(4*.1047198);
+	}
+	if(t1.ti_min>=48&&t1.ti_min<60)
+	{
+	anf=anf+(5*.1047198);
+	}
+setlinestyle(0,0,0);
+setcolor(0);
+line(320,240,x,y);
+line(320,240,q,w);
+line(320,240,ta,d);
+
+x=320+140*cos(angle);
+y=240+140*sin(angle);
+q=320+120*cos(an);
+w=240+120*sin(an);
+ta=320+80*cos(anf);
+d=240+80*sin(anf);
+setcolor(10);
+
+line(320,240,x,y);
+
+setcolor(9);
+line(320,240,q,w);
+
+setcolor(4);
+line(320,240,ta,d);
+angle+=.1047198;
+delay(1000);
+count++;
+}
+}
+
+void usecolor()
+{
+setbkcolor(0);
+int usecolor,ch;
+do
+{
+outtextxy(25,240,"Clock Circumference");
+outtextxy(25,260," Colour Menu");
+outtextxy(25,280,"1: RED");
+outtextxy(25,300,"2:BLUE");
+outtextxy(25,320,"3:User defined");
+cin>>ch;
+switch(ch)
+{
+case 1:setcolor(4); /*RED*/
+circle(320,240,3);
+setcolor(4);
+/*setfillstyle(6,13);*/
+circle(320,240,150);
+circle(320,240,165);
+drawclock();
+drawclogic();
+
+break;
+
+case 2:setcolor(7); /*RED*/
+circle(320,240,3);
+setcolor(7);
+/*setfillstyle(6,13);*/
+circle(320,240,150);
+circle(320,240,165);
+drawclock();
+drawclogic();
+break;
+
+case 3:cout<<"value of color\n"<<endl;
+cin>>usecolor;
+setcolor(usecolor); /*RED*/
+circle(320,240,3);
+setcolor(usecolor);
+/*setfillstyle(6,13);*/
+circle(320,240,150);
+circle(320,240,165);
+drawclock();
+drawclogic();
+
+}
+}while(ch!=3);
+}
